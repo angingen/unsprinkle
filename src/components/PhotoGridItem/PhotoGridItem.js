@@ -1,11 +1,29 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
+
+const getResponsiveImgSrcSet = (src, imgType) => {
+  const [imgPathWithoutTypeAfterFix] = src.match(/(.*)(?=.jpg)/);
+
+  return [`@3x.${imgType}`, `@3x.${imgType}`, `.${imgType}`]
+    .map((afterFix) => `${imgPathWithoutTypeAfterFix}${afterFix}`)
+    .join(", ");
+};
 
 const PhotoGridItem = ({ id, src, alt, tags }) => {
   return (
     <article>
       <Anchor href={`/photos/${id}`}>
-        <Image src={src} />
+        <picture>
+          <source
+            type="image/avif"
+            srcSet={getResponsiveImgSrcSet(src, "avif")}
+          />
+          <source
+            type="image/jpg"
+            srcSet={getResponsiveImgSrcSet(src, "jpg")}
+          />
+          <Image src={src} alt="animal photo" />
+        </picture>
       </Anchor>
       <Tags>
         {tags.map((tag) => (
@@ -28,6 +46,7 @@ const Image = styled.img`
   height: 300px;
   border-radius: 2px;
   margin-bottom: 8px;
+  object-fit: cover;
 `;
 
 const Tags = styled.ul`
