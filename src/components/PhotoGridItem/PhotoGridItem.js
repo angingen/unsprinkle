@@ -22,7 +22,7 @@ const PhotoGridItem = ({ id, src, alt, tags }) => {
             type="image/jpg"
             srcSet={getResponsiveImgSrcSet(src, "jpg")}
           />
-          <Image src={src} alt="animal photo" />
+          <Image src={src} alt={alt} />
         </picture>
       </Anchor>
       <Tags>
